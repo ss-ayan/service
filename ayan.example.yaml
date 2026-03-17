@@ -1,0 +1,42 @@
+server:
+  port: 8080
+  host: 0.0.0.0
+
+vcs:
+  provider: github
+  github:
+    webhook_secret: "${GITHUB_WEBHOOK_SECRET}"
+
+storage:
+  provider: postgres
+  mode: external
+  postgres:
+    connection_string: "${DATABASE_URL}"
+
+llm:
+  provider: anthropic
+  anthropic:
+    api_key: "${ANTHROPIC_KEY}"
+    model: claude-sonnet-4-6
+
+review:
+  target_language: go
+  skip_drafts: true
+  max_files_per_review: 200
+  max_llm_tokens_per_review: 100000
+  analyzers:
+    idiom: true
+    guideline: true
+    slop_detection: true
+    pragmatism: true
+    security: true
+  severity_threshold: suggestion
+  max_comments_per_pr: 25
+  confidence_threshold: 0.7
+
+knowledge:
+  bootstrap_from:
+    - .golangci.yml
+    - CONTRIBUTING.md
+    - CLAUDE.md
+    - .editorconfig
