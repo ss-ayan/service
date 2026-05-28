@@ -2,3 +2,11 @@
 *.pem
 ayan.yaml
 bin/
+
+# Go build artifacts. `go build ./cmd/service` from the repo root
+# produces a binary named `service` here; ignore it explicitly so it
+# can never be staged accidentally. *.test and *.exe cover ad-hoc test
+# binaries and Windows builds.
+/service
+*.test
+*.exe
