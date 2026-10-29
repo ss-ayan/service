@@ -1,0 +1,14 @@
+#!/bin/sh
+# Rejects staged Go files that are not gofmt-clean.
+# Enable once per clone: git config core.hooksPath .githooks
+
+files="$(git diff --cached --name-only --diff-filter=ACMR -- '*.go')"
+[ -z "$files" ] && exit 0
+
+# shellcheck disable=SC2086
+bad="$(gofmt -l $files)"
+if [ -n "$bad" ]; then
+    echo "pre-commit: run gofmt -w on:" >&2
+    echo "$bad" >&2
+    exit 1
+fi
